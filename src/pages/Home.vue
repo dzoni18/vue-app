@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <div>
-      Vue app by Nikola
-    </div>
-    <EmployeesList />
+  <div class="home-wrapper">
+    <!-- Show loader while the employees data is fetching -->
+    <Loader v-if="loadingEmployeesData" />
+    <!-- Show the employees list component when data is fetched -->
+    <EmployeesList v-if="!loadingEmployeesData" />
   </div>
 </template>
 
 <script>
 import EmployeesList from '@/components/EmployeesList.vue';
 import { dataSource } from '@/utils/constants';
+import Loader from '../components/Loader.vue';
 
 export default {
   name: 'Home-page',
-  components: { EmployeesList },
+  components: {
+    EmployeesList,
+    Loader
+  },
   data() {
     return {
       employeesData: null, // Initialize employees data to null,
@@ -31,7 +35,7 @@ export default {
       // Save the data in the store
       this.employeesData = data;
       // Stop the loading indicator
-      this.loadingEmployeesData = true;
+      this.loadingEmployeesData = false;
     }
   },
   mounted() {
@@ -41,4 +45,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.home-wrapper {
+  widows: 100%;
+  height: 100%
+}
+</style>
