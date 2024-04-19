@@ -3,7 +3,7 @@
     <!-- Show loader while the employees data is fetching -->
     <Loader v-if="loadingEmployeesData" />
     <!-- Show the employees list component when data is fetched -->
-    <EmployeesList v-if="!loadingEmployeesData" />
+    <EmployeesList v-if="!loadingEmployeesData" :employeesData="employeesData.Employees" />
   </div>
 </template>
 
