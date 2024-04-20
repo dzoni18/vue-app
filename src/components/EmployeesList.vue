@@ -18,10 +18,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user) in employeesData" :key="user.Id">
-          <td>{{ user.Id }}</td>
-          <td>{{ user.FirstName }}</td>
-          <td>{{ user.LastName }}</td>
+        <tr v-for="(employee) in employeesData" :key="employee.Id" @click="$emit('clickOnRow', employee)">
+          <td>{{ employee.Id }}</td>
+          <td>{{ employee.FirstName }}</td>
+          <td>{{ employee.LastName }}</td>
         </tr>
       </tbody>
     </table>
@@ -37,8 +37,8 @@ export default {
       type: Array,
       required: true
     },
-
-  }
+  },
+  emits: ['clickOnRow']
 }
 </script>
 

@@ -6,7 +6,7 @@
     <!-- Show the employees list component when data is fetched -->
     <div class="main-content" v-if="!loadingEmployeesData">
       <Filters :options="filterOptions" :selectedFilter="selectedFilter" @changeFilter="changeFilter" />
-      <EmployeesList v-if="filteredData" :employeesData="filteredData" />
+      <EmployeesList v-if="filteredData" :employeesData="filteredData" @clickOnRow="clickOnRow" />
       <NoRecords :show="filteredData.length == 0 && !loadingEmployeesData" />
     </div>
   </div>
@@ -63,6 +63,14 @@ export default {
     changeFilter(newValue) {
       this.selectedFilter = newValue;
     },
+    clickOnRow(employee) {
+      this.$router.push({
+        name: 'information-page',
+        params: {
+          employee
+        }
+      });
+    }
   },
   mounted() {
     // Fetch data when the component is mounted
