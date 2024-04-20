@@ -3,25 +3,31 @@
     <!-- Show loader while the employees data is fetching -->
     <Loader v-if="loadingEmployeesData" />
     <!-- Show the employees list component when data is fetched -->
-    <EmployeesList v-if="!loadingEmployeesData" :employeesData="employeesData.Employees" />
+    <div class="main-content" v-if="!loadingEmployeesData">
+      <Filters :options="filterOptions" />
+      <EmployeesList :employeesData="employeesData.Employees" />
+    </div>
   </div>
 </template>
 
 <script>
 import EmployeesList from '@/components/EmployeesList.vue';
-import { dataSource } from '@/utils/constants';
+import { dataSource, filterOptions } from '@/utils/constants';
 import Loader from '../components/Loader.vue';
+import Filters from '@/components/Filters.vue';
 
 export default {
   name: 'Home-page',
   components: {
     EmployeesList,
-    Loader
+    Loader,
+    Filters
   },
   data() {
     return {
       employeesData: null, // Initialize employees data to null,
       loadingEmployeesData: true, // State for show/hide the loading indicator while data is fetching
+      filterOptions: filterOptions,
     };
   },
   methods: {
@@ -49,5 +55,11 @@ export default {
 .home-wrapper {
   widows: 100%;
   height: 100%
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
