@@ -1,5 +1,14 @@
 <template>
   <div tabindex="-1" class="table-container">
+    <div class="results-count">
+      <span>
+        Showed records:
+      </span>
+
+      <span class="results-number">
+        {{ employeesData.length }}
+      </span>
+    </div>
     <table tabindex="-1" class="responsive-table">
       <thead>
         <tr>
@@ -39,6 +48,17 @@ export default {
   position: relative;
 }
 
+.results-count {
+  text-align: left;
+  color: gray;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.results-number {
+  font-weight: 500;
+  color: rgb(2, 149, 189);
+}
 
 .responsive-table thead {
   position: sticky !important;

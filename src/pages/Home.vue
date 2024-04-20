@@ -2,10 +2,12 @@
   <div class="home-wrapper">
     <!-- Show loader while the employees data is fetching -->
     <Loader v-if="loadingEmployeesData" />
+
     <!-- Show the employees list component when data is fetched -->
     <div class="main-content" v-if="!loadingEmployeesData">
-      <Filters :options="filterOptions" />
-      <EmployeesList :employeesData="employeesData.Employees" />
+      <Filters :options="filterOptions" :selectedFilter="selectedFilter" @changeFilter="changeFilter" />
+      <EmployeesList v-if="filteredData" :employeesData="filteredData" />
+      <div v-if="filteredData.length == 0 && !loadingEmployeesData">No record for showing.</div>
     </div>
   </div>
 </template>
@@ -28,6 +30,7 @@ export default {
       employeesData: null, // Initialize employees data to null,
       loadingEmployeesData: true, // State for show/hide the loading indicator while data is fetching
       filterOptions: filterOptions,
+      selectedFilter: filterOptions.all,
     };
   },
   methods: {
@@ -42,11 +45,55 @@ export default {
       this.employeesData = data;
       // Stop the loading indicator
       this.loadingEmployeesData = false;
-    }
+    },
+    changeFilter(newValue) {
+      this.selectedFilter = newValue;
+    },
   },
   mounted() {
     // Fetch data when the component is mounted
     this.fetchData();
+  },
+  computed: {
+    filteredData() {
+      let res = this.employeesData?.Employees || [];
+      let currentDate = new Date();
+
+      if (this.selectedFilter === filterOptions.employedSoon) {
+        // If EmploymentDate > currentDate
+        res = res.filter((employee) => {
+          const employmentDate = new Date(employee.EmploymentDate);
+          return employmentDate.getTime() > currentDate.getTime()
+        })
+      }
+
+      if (this.selectedFilter === filterOptions.currentlyEmployed) {
+        // If EmploymentDate <= currentDate
+        res = res.filter((employee) => {
+          const employmentDate = new Date(employee.EmploymentDate);
+          return employmentDate.getTime() <= currentDate.getTime()
+        })
+      }
+
+      if (this.selectedFilter === filterOptions.toBeTerminated) {
+        res = res.filter((employee) => {
+          // If TerminationDate > currentDate
+          const terminationDate = new Date(employee.TerminationDate);
+          return terminationDate.getTime() > currentDate.getTime()
+        })
+      }
+
+      if (this.selectedFilter === filterOptions.terminated) {
+        res = res.filter((employee) => {
+          // If TerminationDate <= currentDate
+          const terminationDate = new Date(employee.TerminationDate);
+          return terminationDate.getTime() <= currentDate.getTime()
+        })
+      }
+
+
+      return res;
+    }
   }
 }
 </script>

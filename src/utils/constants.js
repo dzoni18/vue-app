@@ -7,8 +7,9 @@ export const dataSource = `data/${dataFileName}`;
 
 // Options for filtering the employees data
 export const filterOptions = {
-  'Employed soon': 'employedSoon',
-  'Currently employed': 'currentlyEmployed',
-  'To be terminated': 'toBeTerminated',
-  'Terminated': 'terminated',
+  'all': 'All',
+  'employedSoon': 'Employed soon',
+  'currentlyEmployed': 'Currently employed',
+  'toBeTerminated': 'To be terminated',
+  'terminated': 'Terminated',
 }

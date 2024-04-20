@@ -1,12 +1,12 @@
 <template>
   <div class="filter-container">
     <div class="filter-label">Filters</div>
-    <select class="filter-select" @change="$emit('filterChange', $event.target.value)">
-      <option value="">All</option>
-      <option v-for="option in Object.keys(options)" :key="option" :value="option">{{ option }}</option>
+    <select :value="selectedFilter" @change="$emit('changeFilter', $event.target.value)" class="filter-select">
+      <option v-for="option in Object.values(options)" :key="option" :value="option">{{ option }}</option>
     </select>
   </div>
 </template>
+
 
 
 <script>
@@ -17,10 +17,14 @@ export default {
     options: {
       type: Object,
       required: true
-    }
+    },
+    selectedFilter: {
+      type: String,
+      required: true
+    },
   },
 
-  emits: ['filterChange']
+  emits: ['changeFilter']
 }
 </script>
 
