@@ -33,7 +33,7 @@
         </div>
         <div class="field-input">
           <label>Employment Date:</label>
-          <input type="date" />
+          <input :value="employmentDate" @change="changeEmploymentDate" type="date" />
         </div>
         <div class="field-input">
           <label>Termination Date:</label>
@@ -41,13 +41,29 @@
         </div>
       </div>
     </div>
+    <div v-if="messageShow" class="message-box">
+      <div class="message-content">
+        <div>Message</div>
+        <b>{{ messageText }}</b>
 
+      </div>
+      <button class="close-button" @click="closeMessageBox">&#215;</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { dateStatus } from '@/utils/constants';
+
 export default {
   name: 'information-page',
+  data() {
+    return {
+      messageShow: false,
+      messageText: '',
+      employmentDate: ''
+    }
+  },
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleDateString();
@@ -55,16 +71,45 @@ export default {
     onBack() {
       this.$router.push({
         name: 'home-page',
-
       });
+    },
+    closeMessageBox() {
+      this.messageShow = false;
+    },
+    changeEmploymentDate(e) {
+      const newDate = e.target.value;
+      this.employmentDate = newDate;
+      const employmentDateToDate = new Date(this.employmentDate)
+      // Get the current date
+      let currentDate = new Date();
+      // Fix for today date
+      currentDate.setHours(23);
+      currentDate.setMinutes(59);
+
+
+      if (employmentDateToDate.getTime() > currentDate.getTime()) {
+        this.messageText = dateStatus.futureEmployment;
+      }
+
+      if (employmentDateToDate.getTime() <= currentDate.getTime()) {
+        this.messageText = dateStatus.pastEmployment;
+      }
+
+      this.messageShow = true;
     }
   },
   computed: {
     employee() {
       // Access the employee object from the route parameters
       return this.$route.params.employee;
+    },
+  },
+  mounted() {
+    if (this.employee && this.employee.EmploymentDate) {
+      this.employmentDate = this.employee.EmploymentDate
     }
-  }
+  },
+
 }
 </script>
 
@@ -133,5 +178,43 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 8px
+}
+
+
+.message-box {
+  max-width: 600px;
+  margin: auto;
+  background-color: #f8f9fa;
+  /* border: 1px solid #ced4da; */
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 3;
+  padding-bottom: 5px;
+  align-items: center;
+  position: relative;
+}
+
+.message-box .message-content {
+  /* margin-bottom: 20px; */
+  padding: 5px;
+}
+
+.message-box .close-button {
+
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #00000068;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  position: absolute;
+  right: 5px;
+  top: 2px
 }
 </style>

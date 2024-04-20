@@ -16,3 +16,11 @@ export const filterOptions = {
 
 // Message for show when don't have employees data 
 export const dataNotFoundMessage = 'Records not found.'
+
+// Messages about the date status
+export const dateStatus = {
+  futureEmployment: 'employed soon',
+  pastEmployment: 'currently employed',
+  futureTermination: 'to be terminated',
+  pastTermination: 'terminated'
+}

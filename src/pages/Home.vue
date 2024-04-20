@@ -80,6 +80,9 @@ export default {
     filteredData() {
       let res = this.employeesData?.Employees || [];
       let currentDate = new Date();
+      // Fix for today date
+      currentDate.setHours(23);
+      currentDate.setMinutes(59);
 
       if (this.selectedFilter === filterOptions.employedSoon) {
         // If EmploymentDate > currentDate
