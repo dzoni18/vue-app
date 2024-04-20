@@ -13,3 +13,6 @@ export const filterOptions = {
   'toBeTerminated': 'To be terminated',
   'terminated': 'Terminated',
 }
+
+// Message for show when don't have employees data 
+export const dataNotFoundMessage = 'Records not found.'

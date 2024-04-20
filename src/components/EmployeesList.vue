@@ -2,7 +2,7 @@
   <div tabindex="-1" class="table-container">
     <div class="results-count">
       <span>
-        Showed records:
+        Shown records:
       </span>
 
       <span class="results-number">
