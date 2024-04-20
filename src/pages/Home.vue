@@ -104,7 +104,6 @@ export default {
           return terminationDate.getTime() <= currentDate.getTime()
         })
 
-        res = [];
       }
 
 
