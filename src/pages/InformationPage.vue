@@ -37,7 +37,7 @@
         </div>
         <div class="field-input">
           <label>Termination Date:</label>
-          <input type="date" />
+          <input :value="terminationDate" @change="changeTerminationDate" type="date" />
         </div>
       </div>
     </div>
@@ -45,7 +45,6 @@
       <div class="message-content">
         <div>Message</div>
         <b>{{ messageText }}</b>
-
       </div>
       <button class="close-button" @click="closeMessageBox">&#215;</button>
     </div>
@@ -61,7 +60,8 @@ export default {
     return {
       messageShow: false,
       messageText: '',
-      employmentDate: ''
+      employmentDate: '',
+      terminationDate: ''
     }
   },
   methods: {
@@ -78,6 +78,7 @@ export default {
     },
     changeEmploymentDate(e) {
       const newDate = e.target.value;
+      // Change the employment date
       this.employmentDate = newDate;
       const employmentDateToDate = new Date(this.employmentDate)
       // Get the current date
@@ -96,6 +97,27 @@ export default {
       }
 
       this.messageShow = true;
+    },
+    changeTerminationDate(e) {
+      const newDate = e.target.value;
+      // Change the termination date
+      this.terminationDate = newDate;
+      const terminationDateToDate = new Date(this.terminationDate)
+      // Get the current date
+      let currentDate = new Date();
+      // Fix for today date
+      currentDate.setHours(23);
+      currentDate.setMinutes(59);
+
+      if (terminationDateToDate.getTime() > currentDate.getTime()) {
+        this.messageText = dateStatus.futureTermination;
+      }
+
+      if (terminationDateToDate.getTime() <= currentDate.getTime()) {
+        this.messageText = dateStatus.pastTermination;
+      }
+
+      this.messageShow = true;
     }
   },
   computed: {
@@ -106,7 +128,13 @@ export default {
   },
   mounted() {
     if (this.employee && this.employee.EmploymentDate) {
-      this.employmentDate = this.employee.EmploymentDate
+      if (this.employee.EmploymentDate) {
+        this.employmentDate = this.employee.EmploymentDate
+      }
+
+      if (this.employee.TerminationDate) {
+        this.terminationDate = this.employee.TerminationDate
+      }
     }
   },
 
