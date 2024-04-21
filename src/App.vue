@@ -38,6 +38,8 @@ export default {
   margin-top: 60px;
 }
 
+
+
 #app * {
   box-sizing: border-box;
 }
@@ -58,7 +60,19 @@ export default {
 }
 
 .page-content {
-  height: 70vh;
+  height: 75vh;
   overflow: auto;
+}
+
+/* Add media query for mobile devices */
+@media only screen and (max-width: 768px) {
+  #app {
+    margin-top: 0px;
+
+  }
+
+  .page-content {
+    height: 90vh;
+  }
 }
 </style>
